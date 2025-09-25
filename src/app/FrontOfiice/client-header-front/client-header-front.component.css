@@ -1,0 +1,50 @@
+/* Appliquer un flou sur l'arrière-plan lorsque le modal est ouvert */
+.modal-backdrop {
+    backdrop-filter: blur(10px); /* Applique un flou plus fort */
+  }
+  
+  /* Style du modal (vert avec texte blanc) */
+  .modal-content {
+    background-color: #28a745;  /* Vert pour le fond */
+    color: white;               /* Texte en blanc */
+    border-radius: 15px;        /* Bords arrondis */
+    padding: 30px;              /* Espacement interne pour le modal */
+    max-width: 80%;             /* Largeur maximale du modal (plus grand) */
+    margin: auto;               /* Centrer le modal horizontalement */
+  }
+  
+  /* Augmenter la taille du modal (grande taille) */
+  .modal-lg {
+    max-width: 90%;             /* Largeur plus grande pour le modal */
+  }
+  
+  /* Ajouter de l'espace entre l'image et le texte dans le panier */
+  .list-group-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 15px; /* Espacement plus grand entre les éléments de la liste */
+  }
+  
+  /* Ajouter un rayon aux images des produits */
+  .list-group-item img {
+    border-radius: 8px;
+    margin-right: 15px;
+  }
+  
+  /* Style des boutons */
+  .btn-light {
+    background-color: #f8f9fa; /* Bouton clair pour payer */
+    color: #28a745;             /* Texte vert */
+  }
+  
+  .btn-light:hover {
+    background-color: #e2e6ea;
+    color: #155724;
+  }
+  
+  /* Modal Backdrop */
+  .modal-backdrop.show {
+    opacity: 0.7; /* Opacité du fond flou */
+  }
+  

@@ -1,0 +1,220 @@
+/* 🌿 Conteneur principal, avec flexbox */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: flex-start; /* Placer le contenu en haut de la page */
+  align-items: flex-start; /* Aligner le formulaire vers le haut */
+  height:800%; /* Prenez toute la hauteur de la page */
+  background: linear-gradient(135deg, #76b041, #a3dca9);
+  font-family: 'Roboto', sans-serif;
+  padding: 20px;
+  flex-direction: column;
+}
+
+/* 🍃 Formulaire avec une hauteur modérée et une barre de défilement si nécessaire */
+.card {
+  background: #ffffff;
+  padding: 40px 50px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 900px;
+  max-height: 80vh;  /* Limite la hauteur du formulaire pour éviter qu'il dépasse */
+  overflow-y: auto;  /* Ajoute une barre de défilement si nécessaire */
+  text-align: left;
+  border: none;
+  transform: scale(1);
+  transition: transform 0.3s ease;
+  margin-top: 30px; /* Espace du haut, pour que le formulaire ne soit pas trop centré */
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+/* 🌱 Titre avec animation et icône */
+h2 {
+  color: #34a853;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  position: relative;
+}
+
+h2 i {
+  font-size: 1.5em;
+  margin-right: 10px;
+}
+
+h2::before {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 5px;
+  background-color: #34a853;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* 🍂 Labels de champs */
+label {
+  font-weight: 600;
+  color: #4a4a4a;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+/* 🍃 Champs du formulaire avec bordures stylées */
+input, select, textarea {
+  width: 100%;
+  padding: 14px 20px;
+  margin-bottom: 15px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-size: 15px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #34a853;
+  box-shadow: 0 0 8px rgba(52, 168, 83, 0.3);
+  outline: none;
+}
+
+/* 🍂 Icônes dans les champs */
+.input-group-text {
+  background-color: #34a853;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 1.2em;
+}
+
+/* 🍂 Divisions avec effet hover */
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.row .col-md-4 {
+  flex: 1;
+  transition: transform 0.3s ease;
+}
+
+.row .col-md-4:hover {
+  transform: translateY(-5px);
+}
+
+/* 🌾 Description - Large champ de texte */
+textarea {
+  width: 100%;
+  height: 120px;
+  resize: vertical;
+  padding: 12px 20px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+textarea:focus {
+  border-color: #34a853;
+  box-shadow: 0 0 8px rgba(52, 168, 83, 0.3);
+  outline: none;
+}
+
+/* ⚠ Messages d'erreur */
+small {
+  font-size: 14px;
+  color: #ff4747;
+  margin-top: 5px;
+  display: block;
+}
+
+/* 🌿 Bouton d'ajout */
+button {
+  background-color: #34a853;
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 700;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+  background-color: #28a745;
+  transform: translateY(-3px);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* 🌿 Animations subtiles */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 🌟 Responsive Design - pour les petits écrans */
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+  .col-md-4 {
+    width: 100%;
+  }
+}
+
+/* 🌿 Effet Hover sur les champs de saisie */
+input:hover, select:hover, textarea:hover {
+  border-color: #34a853;
+  box-shadow: 0 0 5px rgba(52, 168, 83, 0.3);
+}
+
+.input-group-text i {
+  color: white;
+  font-size: 1.4em;
+}
+
+/* 🌿 Icône d'image pour le champ file */
+#imageProduit {
+  padding: 12px 15px;
+  border-radius: 10px;
+  background: #f1f1f1;
+  border: 2px solid #ddd;
+  cursor: pointer;
+}
+
+#imageProduit:focus {
+  border-color: #34a853;
+}
+
+/* 👇 Footer */
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #fff;
+  padding: 15px;
+  color: #4a4a4a;
+}

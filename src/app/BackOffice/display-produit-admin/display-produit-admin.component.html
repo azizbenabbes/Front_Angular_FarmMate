@@ -1,0 +1,77 @@
+<section style="background-color: #f8f9fa;">
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Produits en Attente</h2>
+
+        <table class="table table-bordered table-striped">
+            <thead class="bg-success text-white">
+                <tr>
+                    <th scope="col">Image</th> <!-- Colonne pour l'image -->
+                    <th scope="col">Nom du Produit</th>
+                    <th scope="col">Catégorie</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Date de Fabrication</th>
+                    <th scope="col">Date d'Expiration</th>
+                    <th scope="col">Contrôle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let produit of produitsEnAttente">
+                    <!-- Afficher l'image du produit -->
+                    <td>
+                        <img [src]="'assets/img/' + produit.imageProduit" alt="Image du produit" width="50" height="50">
+                    </td>
+                    <td>{{ produit.nomProduit }}</td>
+                    <td>{{ produit.categorieProduit }}</td>
+                    <td>{{ produit.prixProduit }} TND</td>
+                    <td>{{ produit.stockProduit }}</td>
+                    <td>{{ produit.dateFa | date }}</td>
+                    <td>{{ produit.dateExp | date }}</td>
+                    <td>
+                        <button (click)="openControleModal(produit)" class="btn" style="background-color: #ad0d2d; color: white;">
+                            <i class="fas fa-cogs"></i> Contrôle
+                        </button>
+                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal: Contrôle Produit -->
+    <div class="modal" tabindex="-1" *ngIf="controleProduit !== null" [ngClass]="{'show': controleProduit !== null}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">Contrôle du Produit: {{ controleProduit?.nomProduit }}</h5>
+                    <button type="button" class="btn-close" (click)="closeControleModal()"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Afficher l'image dans le modal -->
+                    <div class="text-center mb-3">
+                        <img [src]="'assets/img/' + controleProduit?.imageProduit" alt="Image du produit" width="100" height="100">
+                    </div>
+                    <form [formGroup]="controleForm" (ngSubmit)="updateProduitStatus()">
+                        <div class="mb-3">
+                            <label>Status</label>
+                            <select formControlName="statusProduit" class="form-control rounded-end-pill">
+                                <option value="En_attente">En attente</option>
+                                <option value="Disponible">Disponible</option>
+                                <option value="Non_Valide">Non valide</option>
+                                <option value="Rupture_de_stock">Rupture de stock</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Remarque</label>
+                            <textarea formControlName="remarque" class="form-control rounded-end-pill" placeholder="Écrivez une remarque"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Enregistrer</button>
+                            <button type="button" class="btn btn-secondary" (click)="closeControleModal()">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

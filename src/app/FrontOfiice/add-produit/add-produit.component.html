@@ -1,0 +1,156 @@
+<div class="container my-5">
+  <div class="card shadow-lg rounded-4 border-0" style="max-height: 70vh; overflow-y: auto;">
+    <div class="card-body p-5" style="background-color: #f3fff3;">
+      <h2 class="text-center text-success mb-4">
+        <i class="fas fa-box-open me-2"></i>Ajouter un Produit
+      </h2>
+      <form [formGroup]="myForm" (ngSubmit)="add()">
+
+        <!-- Ligne 1 -->
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <label for="nomProduit" class="form-label">
+              <i class="fas fa-tag text-success me-2"></i>Nom du Produit
+            </label>
+            <div class="input-group shadow-sm">
+              <span class="input-group-text bg-success text-white rounded-start-pill">
+                <i class="fas fa-tag"></i>
+              </span>
+              <input type="text" id="nomProduit" formControlName="nomProduit" class="form-control rounded-end-pill" placeholder="Ex : Tomates bio">
+            </div>
+            <div *ngIf="myForm.get('nomProduit')?.invalid && myForm.get('nomProduit')?.touched">
+              <small class="text-danger">Champ obligatoire</small>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label for="stockProduit" class="form-label">
+              <i class="fas fa-boxes text-success me-2"></i>Stock du Produit
+            </label>
+            <div class="input-group shadow-sm">
+              <span class="input-group-text bg-success text-white rounded-start-pill">
+                <i class="fas fa-boxes"></i>
+              </span>
+              <input type="number" id="stockProduit" formControlName="stockProduit" class="form-control rounded-end-pill" placeholder="Ex : 100">
+            </div>
+            <div *ngIf="myForm.get('stockProduit')?.invalid && myForm.get('stockProduit')?.touched">
+              <small class="text-danger">Champ obligatoire</small>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label for="prixProduit" class="form-label">
+              <i class="fas fa-money-bill-wave text-success me-2"></i>Prix (TND)
+            </label>
+            <div class="input-group shadow-sm">
+              <span class="input-group-text bg-success text-white rounded-start-pill">
+                <i class="fas fa-money-bill-wave"></i>
+              </span>
+              <input type="number" id="prixProduit" formControlName="prixProduit" class="form-control rounded-end-pill" placeholder="Ex : 5.000">
+            </div>
+            <div *ngIf="myForm.get('prixProduit')?.invalid && myForm.get('prixProduit')?.touched">
+              <small class="text-danger">Champ obligatoire</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ligne 2 -->
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <label for="dateFa" class="form-label">
+              <i class="fas fa-calendar-plus text-success me-2"></i>Date de Fabrication
+            </label>
+            <div class="input-group shadow-sm">
+              <span class="input-group-text bg-success text-white rounded-start-pill">
+                <i class="fas fa-calendar-plus"></i>
+              </span>
+              <input type="date" id="dateFa" formControlName="dateFa" class="form-control rounded-end-pill">
+            </div>
+            <div *ngIf="myForm.get('dateFa')?.invalid && myForm.get('dateFa')?.touched">
+              <small class="text-danger">Champ obligatoire</small>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label for="dateExp" class="form-label">
+              <i class="fas fa-calendar-times text-success me-2"></i>Date d'Expiration
+            </label>
+            <div class="input-group shadow-sm">
+              <span class="input-group-text bg-success text-white rounded-start-pill">
+                <i class="fas fa-calendar-times"></i>
+              </span>
+              <input type="date" id="dateExp" formControlName="dateExp" class="form-control rounded-end-pill">
+            </div>
+            <div *ngIf="myForm.get('dateExp')?.invalid && myForm.get('dateExp')?.touched">
+              <small class="text-danger">Champ obligatoire</small>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label for="imageProduit" class="form-label">
+              <i class="fas fa-image text-success me-2"></i>Image du Produit
+            </label>
+            <div class="input-group shadow-sm">
+              <span class="input-group-text bg-success text-white rounded-start-pill">
+                <i class="fas fa-image"></i>
+              </span>
+              <input type="file" id="imageProduit" formControlName="imageProduit" class="form-control rounded-end-pill" (change)="onFileSelected($event)">
+            </div>
+            <div *ngIf="myForm.get('imageProduit')?.invalid && myForm.get('imageProduit')?.touched">
+              <small class="text-danger">Champ obligatoire</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ligne 3 (ajouter la description ici) -->
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <label for="description" class="form-label">
+              <i class="fas fa-align-left text-success me-2"></i>Description du Produit
+            </label>
+            <div class="input-group shadow-sm">
+              <span class="input-group-text bg-success text-white rounded-start-pill">
+                <i class="fas fa-align-left"></i>
+              </span>
+              <textarea id="description" formControlName="description" class="form-control rounded-end-pill" rows="4" placeholder="Entrez une description détaillée du produit..."></textarea>
+            </div>
+            <div *ngIf="myForm.get('description')?.invalid && myForm.get('description')?.touched">
+              <small class="text-danger">Champ obligatoire</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ligne 4 -->
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <label for="categorieProduit" class="form-label">
+              <i class="fas fa-list text-success me-2"></i>Catégorie
+            </label>
+            <div class="input-group shadow-sm">
+              <span class="input-group-text bg-success text-white rounded-start-pill">
+                <i class="fas fa-list"></i>
+              </span>
+              <select id="categorieProduit" formControlName="categorieProduit" class="form-select rounded-end-pill">
+                <option value="">Sélectionner une catégorie</option>
+                <option value="Fruits">Fruits</option>
+                <option value="Legumes">Legumes</option>
+                <option value="Cerales">Cerales</option>
+              </select>
+            </div>
+            <div *ngIf="myForm.get('categorieProduit')?.invalid && myForm.get('categorieProduit')?.touched">
+              <small class="text-danger">Champ obligatoire</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bouton -->
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-success px-4 py-2 rounded-pill shadow" [disabled]="myForm.invalid">
+            <i class="fas fa-plus-circle me-2"></i>Ajouter le Produit
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

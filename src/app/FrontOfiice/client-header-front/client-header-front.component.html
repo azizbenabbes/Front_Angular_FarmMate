@@ -1,0 +1,91 @@
+<nav class="navbar navbar-expand-lg bg-success navbar-dark shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="#">🌿 FarmMate</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+      aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">Produit</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" [routerLink]="['addProduit']">Ajouter un produit</a></li>
+            <li><a class="dropdown-item" [routerLink]="['DisplayProduit']">Produits disponibles</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" [routerLink]="['DisplaymesProduit']">Mes Produits</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Bouton Panier -->
+      <button class="btn btn-outline-light position-relative me-3" type="button" (click)="showModal()">
+        <img src="assets/img/chario.png" alt="Chariot" style="width: 30px; height: 30px;" />
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          {{ totalPanier | number: '1.0-0' }}
+          <span class="visually-hidden">Total du panier</span>
+        </span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- MODAL DU PANIER -->
+<div id="panierModal" class="modal fade" tabindex="-1" aria-labelledby="panierModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      <div class="modal-header bg-success text-white rounded-top">
+        <h5 class="modal-title" id="panierModalLabel">🛒 Votre Panier</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+          aria-label="Close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Produits dans le panier -->
+        <div *ngIf="produitsDuPanier.length > 0">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex align-items-center justify-content-between" *ngFor="let produit of produitsDuPanier"  [@fadeOut]>
+              <div class="d-flex align-items-center">
+                <img [src]="'assets/img/' + produit.imageProduit" class="rounded me-3" style="width: 50px; height: 50px;">
+                <span class="fw-semibold">{{ produit.nomProduit }}</span>
+              </div>
+
+              <!-- Sélecteur de quantité stylisé -->
+              <div>
+                <select class="form-select form-select-sm border-success"
+                        [(ngModel)]="produit.quantitePanier"
+                        (change)="modifierQuantite(produit.idProduit ?? 0, produit.quantitePanier ?? 0)">
+                  <option *ngFor="let q of quantitesDisponibles" [value]="q">{{ q }} kg</option>
+                </select>
+              </div>
+
+              <!-- Bouton supprimer -->
+              <button  class="btn btn-danger btn-sm" (click)="supprimerProduit(produit.idProduit ?? 0)">
+                <i class="bi bi-trash"></i> <!-- Icône de poubelle -->
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Aucun produit -->
+        <div *ngIf="produitsDuPanier.length === 0" class="text-center py-4">
+          <p class="text-muted">Aucun produit dans le panier.</p>
+        </div>
+
+        <!-- Total -->
+        <div class="mt-4 text-end">
+          <h5>Total : <span class="text-success fw-bold">{{ totalPanier | number: '1.0-0' }} TND</span></h5>
+        </div>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-success">Payer</button>
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>

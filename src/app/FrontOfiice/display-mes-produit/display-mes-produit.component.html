@@ -1,0 +1,169 @@
+<section style="background-color: white;">
+  <div class="container py-5">
+    <div class="crises-container">
+      <div *ngFor="let produit of getProduitsPage()" class="card">
+        <!-- Bouton Supprimer -->
+        <button (click)="openDeleteModal(produit)" class="btn btn-danger" style="position: absolute; top: 10px; right: 10px;">
+          <i class="fas fa-times"></i> <!-- Icône croix -->
+        </button>
+        <!-- Image du produit -->
+        <img [src]="'assets/img/' + produit.imageProduit" class="crise-image" alt="{{ produit.nomProduit }}" [id]="'image-' + produit.idProduit"/>
+
+        <!-- Contenu de la carte -->
+        <div class="card-body">
+          <div class="card-header">
+            <h4>{{ produit.nomProduit }}</h4>
+          </div>
+
+          <h6 class="text-success fw-bold mb-3">{{ produit.prixProduit }} TND</h6>
+
+          <!-- Statut du produit -->
+          <div [ngClass]="{
+                'status-valid': produit.statusProduit === 'Disponible',
+                'status-invalid': produit.statusProduit === 'Non_Valide',
+                'status-pending': produit.statusProduit === 'En_attente',
+                'status-out-of-stock': produit.statusProduit === 'Rupture_de_stock'
+            }" class="product-status">
+            <span *ngIf="produit.statusProduit === 'Disponible'">Disponible</span>
+            <span *ngIf="produit.statusProduit === 'Non_Valide'">Non valide</span>
+            <span *ngIf="produit.statusProduit === 'En_attente'">En attente</span>
+            <span *ngIf="produit.statusProduit === 'Rupture_de_stock'"><i class="fas fa-exclamation-triangle"></i> Rupture de stock</span>
+          </div>
+
+          <!-- Boutons -->
+          <button (click)="openModal(produit)" class="btn btn-info mt-3 me-2">
+            <i class="fas fa-eye"></i> Voir Détails
+          </button>
+          <button (click)="openEditModal(produit)" class="btn btn-warning mt-3">
+            <i class="fas fa-pencil-alt"></i> Modifier
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center mt-4">
+        <li class="page-item" [class.disabled]="pageCourante === 0">
+          <button class="page-link" (click)="changerPage(-1)" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </button>
+        </li>
+        <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item" [class.active]="pageCourante === i">
+          <button class="page-link" (click)="changerPage(i)">
+            {{ i + 1 }}
+          </button>
+        </li>
+        <li class="page-item" [class.disabled]="pageCourante === totalPages - 1">
+          <button class="page-link" (click)="changerPage(1)" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Modal: Voir Détails -->
+  <div class="modal" tabindex="-1" *ngIf="selectedProduit !== null" [ngClass]="{'show': selectedProduit !== null}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ selectedProduit.nomProduit }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Nom:</strong> {{ selectedProduit.nomProduit }}</p>
+          <p><strong>Prix:</strong> {{ selectedProduit.prixProduit }} TND</p>
+          <p><strong>Stock:</strong> {{ selectedProduit.stockProduit }}</p>
+          <p><strong>Date de Fabrication:</strong> {{ selectedProduit.dateFa }}</p>
+          <p><strong>Date d'Expiration:</strong> {{ selectedProduit.dateExp }}</p>
+          <p><strong>Catégorie:</strong> {{ selectedProduit.categorieProduit }}</p>
+          <p><strong>Description:</strong> {{ selectedProduit.description }}</p>
+          <img [src]="'assets/img/' + selectedProduit.imageProduit" alt="{{ selectedProduit.nomProduit }}" class="img-fluid" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Modifier Produit -->
+  <div class="modal" tabindex="-1" *ngIf="editProduit !== null" [ngClass]="{'show': editProduit !== null}">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-warning">
+          <h5 class="modal-title text-dark">Modifier {{ editProduit.nomProduit }}</h5>
+          <button type="button" class="btn-close" (click)="closeEditModal()"></button>
+        </div>
+        
+        <div class="modal-body">
+          <form>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label>Nom du Produit</label>
+                <input [(ngModel)]="editProduit.nomProduit" name="nomProduit" class="form-control rounded-end-pill" />
+              </div>
+              <div class="col-md-6">
+                <label>Prix</label>
+                <input type="number" [(ngModel)]="editProduit.prixProduit" name="prixProduit" class="form-control rounded-end-pill" />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label>Stock</label>
+                <input type="number" [(ngModel)]="editProduit.stockProduit" name="stockProduit" class="form-control rounded-end-pill" />
+              </div>
+              <div class="col-md-6">
+                <label>Catégorie</label>
+                <input [(ngModel)]="editProduit.categorieProduit" name="categorieProduit" class="form-control rounded-end-pill" />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label>Date Fabrication</label>
+                <input type="date" [(ngModel)]="editProduit.dateFa" name="dateFa" class="form-control rounded-end-pill" />
+              </div>
+              <div class="col-md-6">
+                <label>Date Expiration</label>
+                <input type="date" [(ngModel)]="editProduit.dateExp" name="dateExp" class="form-control rounded-end-pill" />
+              </div>
+            </div>
+            <div class="mb-3">
+              <label>Description</label>
+              <textarea [(ngModel)]="editProduit.description" name="description" class="form-control rounded-end-pill"></textarea>
+            </div>
+            <div class="mb-3">
+              <label>Image</label>
+              <input type="file" [(ngModel)]="editProduit.imageProduit" name="imageProduit" class="form-control rounded-end-pill"  (change)="onFileSelected($event)" />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button (click)="modifierProduit()" class="btn btn-success">Enregistrer</button>
+          <button (click)="closeEditModal()" class="btn btn-secondary">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Supprimer Produit -->
+  <div class="modal" tabindex="-1" *ngIf="showConfirmationModal" [ngClass]="{'show': showConfirmationModal}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title">Confirmation de Suppression</h5>
+          <button type="button" class="btn-close" (click)="closeConfirmationModal()"></button>
+        </div>
+        <div class="modal-body">
+          <p>Êtes-vous sûr de vouloir supprimer ce produit ?</p>
+          <p><strong>{{ selectedProduit?.nomProduit }}</strong></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="confirmDeleteProduit()">Supprimer</button>
+          <button type="button" class="btn btn-secondary" (click)="closeConfirmationModal()">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

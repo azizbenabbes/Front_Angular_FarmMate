@@ -1,0 +1,147 @@
+/* Style général du tableau */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* En-tête de tableau */
+.table th {
+    background-color: #28a745;  /* Vert */
+    color: white;
+    text-align: center;
+}
+
+/* Corps du tableau */
+.table td {
+    text-align: center;
+}
+
+/* Lignes du tableau */
+.table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table tr:hover {
+    background-color: #d4edda;
+}
+
+/* Titre du tableau */
+h2 {
+    color: #28a745;
+    font-size: 2rem;
+}
+
+/* Modal */
+/* Modal */
+.modal {
+    display: none;  /* Par défaut, le modal est caché */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent noir */
+    z-index: 1050; /* Positionner au-dessus de tout */
+    overflow: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.show {
+    display: flex;  /* Affiche le modal */
+}
+
+.modal-dialog {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 60%; /* Ajuster la largeur du modal */
+    max-width: 800px; /* Limiter la largeur maximale */
+    padding: 20px;
+}
+
+.modal-header {
+    background-color: #28a745; /* Couleur d'arrière-plan de l'entête */
+    color: white;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header .btn-close {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 0 0 10px 10px;
+}
+
+/* Boutons du modal */
+.btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* Améliorer la lisibilité du texte et des champs du formulaire */
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    transition: border 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #28a745;
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Icône dans le bouton */
+.fas {
+    margin-right: 5px;
+}
+
+/* Image dans le modal - plus grande et centrée */
+.modal-body img {
+    width: 100%; /* L'image occupe toute la largeur disponible */
+    max-width: 350px; /* Limite la largeur à 500px */
+    height: auto; /* Maintient le ratio de l'image */
+    display: block;
+    margin: 0 auto; /* Centre l'image */
+}
+

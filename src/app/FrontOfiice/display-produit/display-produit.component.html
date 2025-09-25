@@ -1,0 +1,97 @@
+<section style="background-color: white;">
+  <div class="container py-5">
+    
+    <!-- Menu filtre par catégorie -->
+    
+    <!-- Conteneur des cartes produits -->
+    <div class="crises-container row justify-content-center g-4">
+      <div *ngFor="let produit of getProduitsPage()" class="card col-md-4 shadow-sm p-0">
+        <!-- Image produit -->
+        <img [src]="'assets/img/' + produit.imageProduit" class="crise-image card-img-top" alt="{{ produit.nomProduit }}" />
+
+        <!-- Détails produit -->
+        <div class="card-body">
+          <div class="card-header bg-white border-0 pb-1">
+            <h4 class="card-title">{{ produit.nomProduit }}</h4>
+          </div>
+
+          <h6 class="text-success fw-bold mb-3">{{ produit.prixProduit }} TND</h6>
+
+          <!-- Sélection quantité + bouton ajouter -->
+          <div class="input-group mb-2">
+            <select class="form-select border-success text-center" [(ngModel)]="produit.quantitePanier">
+              <option *ngFor="let q of quantitesDisponibles" [value]="q">{{ q }} kg</option>
+            </select>
+            <button class="btn btn-success" (click)="ajouterAuPanier(produit.idProduit ?? 0, produit.quantitePanier ?? 10)">
+              <i class="fas fa-cart-plus me-2"></i>Ajouter
+            </button>
+          </div>
+
+          <!-- Bouton voir détails -->
+          <button (click)="openModal(produit)" class="btn btn-info mt-2">
+            <i class="fas fa-eye"></i> Voir Détails
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center mt-4">
+        <li class="page-item" [class.disabled]="pageCourante === 0">
+          <button class="page-link" (click)="changerPage(-1)" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </button>
+        </li>
+        <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item" [class.active]="pageCourante === i">
+          <button class="page-link" (click)="changerPage(i)">
+            {{ i + 1 }}
+          </button>
+        </li>
+        <li class="page-item" [class.disabled]="pageCourante === totalPages - 1">
+          <button class="page-link" (click)="changerPage(1)" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Modal Voir Détails -->
+  <div class="modal fade show d-block" tabindex="-1" *ngIf="selectedProduit !== null" [ngClass]="{'show': selectedProduit !== null}">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- En-tête modal -->
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title">
+            <i class="fas fa-info-circle me-2"></i>{{ selectedProduit.nomProduit }}
+          </h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <!-- Corps modal -->
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-7">
+              <p><strong><i class="fas fa-tag me-2"></i>Nom:</strong> {{ selectedProduit.nomProduit }}</p>
+              <p><strong><i class="fas fa-money-bill-wave me-2"></i>Prix:</strong> {{ selectedProduit.prixProduit }} TND</p>
+              <p><strong><i class="fas fa-cogs me-2"></i>Stock:</strong> {{ selectedProduit.stockProduit }}</p>
+              <p><strong><i class="fas fa-calendar-alt me-2"></i>Date de Fabrication:</strong> {{ selectedProduit.dateFa }}</p>
+              <p><strong><i class="fas fa-calendar-day me-2"></i>Date d'Expiration:</strong> {{ selectedProduit.dateExp }}</p>
+              <p><strong><i class="fas fa-th-list me-2"></i>Catégorie:</strong> {{ selectedProduit.categorieProduit }}</p>
+              <p><strong><i class="fas fa-pencil-alt me-2"></i>Description:</strong> {{ selectedProduit.description }}</p>
+            </div>
+            <div class="col-md-5">
+              <img [src]="'assets/img/' + selectedProduit.imageProduit" 
+                   alt="{{ selectedProduit.nomProduit }}" 
+                   class="img-fluid rounded-3 shadow-sm" />
+            </div>
+          </div>
+        </div>
+        <!-- Pied de modal -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
